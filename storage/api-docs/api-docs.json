@@ -1,0 +1,2192 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "My API",
+        "description": "API Description",
+        "contact": {
+            "email": "developer@example.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User login",
+                "description": "Authenticate user and return a token",
+                "operationId": "loginUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "P@ssw0rd1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User logged in successfully"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsInN1YiI6InVzZXIifQ.eyJleHBpcmVkX3ZhbHVlcyI6IkFjY291bnRfaGFzX3ZhbHVlIn0.Iywwu5r-9ctb65sds6apEYIRtqU_8n0MG_M6Ll72gX5o"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid details"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/profile": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Get user profile",
+                "description": "Returns user profile data",
+                "operationId": "getUserProfile",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Profile data"
+                                        },
+                                        "userData": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register a new user",
+                "description": "This endpoint allows you to register a new user.",
+                "operationId": "8a56853624e025573120a09a4c75d468",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "surname",
+                                    "email",
+                                    "password",
+                                    "duty",
+                                    "employee_type"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "User's first name",
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "surname": {
+                                        "description": "User's last name",
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "patronymic": {
+                                        "description": "User's patronymic name (optional)",
+                                        "type": "string",
+                                        "example": "Smith"
+                                    },
+                                    "email": {
+                                        "description": "User's email address",
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john.doe@example.com"
+                                    },
+                                    "password": {
+                                        "description": "User's password (minimum 8 characters)",
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "StrongPassword123"
+                                    },
+                                    "duty": {
+                                        "description": "User's duty/role",
+                                        "type": "string",
+                                        "example": "Manager"
+                                    },
+                                    "employee_type": {
+                                        "description": "Type of employment",
+                                        "type": "string",
+                                        "example": "Full-time"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User registered successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User registered successfully"
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "John"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "john.doe@example.com"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/departments": {
+            "get": {
+                "tags": [
+                    "Departments"
+                ],
+                "summary": "Get all active departments with faculty details",
+                "operationId": "da8820891dd6bf08713e9d77fbe6389f",
+                "responses": {
+                    "200": {
+                        "description": "List of active departments with faculty details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "description": "Department ID",
+                                                "type": "integer"
+                                            },
+                                            "name": {
+                                                "description": "Department name",
+                                                "type": "string"
+                                            },
+                                            "status": {
+                                                "description": "Department status",
+                                                "type": "integer"
+                                            },
+                                            "faculty": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Faculty ID",
+                                                        "type": "integer"
+                                                    },
+                                                    "name": {
+                                                        "description": "Faculty name",
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Departments"
+                ],
+                "summary": "Create a new department",
+                "operationId": "c0f48115550ccf6a76b43ff263bfc05c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Name of the department",
+                                        "type": "string"
+                                    },
+                                    "faculty_id": {
+                                        "description": "ID of the faculty",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Department created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/departments/{id}": {
+            "get": {
+                "tags": [
+                    "Departments"
+                ],
+                "summary": "Get a specific department with faculty details",
+                "operationId": "ecdae8bd198987eca46831ced8777bba",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the department",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details of the department with faculty details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "description": "Department ID",
+                                            "type": "integer"
+                                        },
+                                        "name": {
+                                            "description": "Department name",
+                                            "type": "string"
+                                        },
+                                        "status": {
+                                            "description": "Department status",
+                                            "type": "integer"
+                                        },
+                                        "faculty": {
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Faculty ID",
+                                                    "type": "integer"
+                                                },
+                                                "name": {
+                                                    "description": "Faculty name",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Department not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Departments"
+                ],
+                "summary": "Update an existing department",
+                "operationId": "1d6fe343b0c809ce2a0722693aed793d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the department to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Updated name of the department",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Department updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Department not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Departments"
+                ],
+                "summary": "Delete a department (soft delete by setting status=0)",
+                "operationId": "5cc7aebc708fbbbeb04b81504f62b499",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the department to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Department deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Department not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/faculties": {
+            "get": {
+                "tags": [
+                    "Faculties"
+                ],
+                "summary": "Get all active faculties",
+                "operationId": "9746c5412022b3326145eb6c367172fd",
+                "responses": {
+                    "200": {
+                        "description": "List of active faculties",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "description": "Faculty ID",
+                                                "type": "integer"
+                                            },
+                                            "name": {
+                                                "description": "Faculty name",
+                                                "type": "string"
+                                            },
+                                            "status": {
+                                                "description": "Faculty status",
+                                                "type": "integer"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Faculties"
+                ],
+                "summary": "Create a new faculty",
+                "operationId": "34c015f216f3291bd7dc8f76fd155a91",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Name of the faculty",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Faculty created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/faculties/{id}": {
+            "get": {
+                "tags": [
+                    "Faculties"
+                ],
+                "summary": "Get a specific faculty",
+                "operationId": "0401693c8e237e101dfe48589ef6a470",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the faculty",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details of the faculty",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "description": "Faculty ID",
+                                            "type": "integer"
+                                        },
+                                        "name": {
+                                            "description": "Faculty name",
+                                            "type": "string"
+                                        },
+                                        "status": {
+                                            "description": "Faculty status",
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Faculty not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Faculties"
+                ],
+                "summary": "Update an existing faculty",
+                "operationId": "44f8c4c0c90fb3d7ffae5b573a3d471b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the faculty to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Updated name of the faculty",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Faculty updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Faculty not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Faculties"
+                ],
+                "summary": "Delete a faculty (soft delete by setting status=0)",
+                "operationId": "325768d1ee1f5c24e15754625593ff58",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the faculty to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Faculty deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Faculty not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/permissions": {
+            "get": {
+                "tags": [
+                    "Permissions"
+                ],
+                "summary": "List all permissions",
+                "operationId": "27bb1606a7b293d1d49f57bb94ae71f7",
+                "responses": {
+                    "200": {
+                        "description": "A list of permissions"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Permissions"
+                ],
+                "summary": "Create a new permission",
+                "operationId": "37c918c86b5085b0eb088fa760c7175d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Permission"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Permission created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/permissions/{id}": {
+            "get": {
+                "tags": [
+                    "Permissions"
+                ],
+                "summary": "Get a specific permission",
+                "operationId": "397983813683c0c602fc1a036992367a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the permission to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details of a permission",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Permission"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Permissions"
+                ],
+                "summary": "Update an existing permission",
+                "operationId": "db11d4d00da3ece5b99187df6f1e86e7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the permission to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Permission"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Permission updated"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Permissions"
+                ],
+                "summary": "Delete a permission",
+                "operationId": "f0afbd22579524a5bb83b653f7dd18dc",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the permission to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Permission deleted"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/roles": {
+            "get": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Get all roles",
+                "operationId": "77e3636d8592997ce9d6d27b50857a69",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Create a new role",
+                "operationId": "4a563842fbfcad237f63da43065fca3d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Admin"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Role created successfully"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/roles/{id}": {
+            "get": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Get role by ID",
+                "operationId": "7fb0667a295b7678a30353aa11739683",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "404": {
+                        "description": "Role not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Update role permissions",
+                "operationId": "786d6990093a8eb3a56931f19a827e43",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Admin"
+                                    },
+                                    "permission_ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Role updated successfully"
+                    },
+                    "404": {
+                        "description": "Role not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Delete a role",
+                "operationId": "8285c46981c60ad600aa4077307aec04",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Role deleted successfully"
+                    },
+                    "404": {
+                        "description": "Role not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/specialities": {
+            "get": {
+                "tags": [
+                    "Specialities"
+                ],
+                "summary": "Get all active specialities with faculty details",
+                "operationId": "6c16d59bd026b900f54e5320a78111f6",
+                "responses": {
+                    "200": {
+                        "description": "List of active specialities with faculty details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "description": "Speciality ID",
+                                                "type": "integer"
+                                            },
+                                            "name": {
+                                                "description": "Speciality name",
+                                                "type": "string"
+                                            },
+                                            "status": {
+                                                "description": "Speciality status",
+                                                "type": "integer"
+                                            },
+                                            "faculty": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Faculty ID",
+                                                        "type": "integer"
+                                                    },
+                                                    "name": {
+                                                        "description": "Faculty name",
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Specialities"
+                ],
+                "summary": "Create a new speciality",
+                "operationId": "ab6b3a92aea88eb95e19b5a03d38b362",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Name of the speciality",
+                                        "type": "string"
+                                    },
+                                    "faculty_id": {
+                                        "description": "ID of the faculty",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Speciality created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/specialities/{id}": {
+            "get": {
+                "tags": [
+                    "Specialities"
+                ],
+                "summary": "Get a specific speciality with faculty details",
+                "operationId": "df95bad3b3ba49b65dec505e28feffb2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the speciality",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details of the speciality with faculty details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "description": "Speciality ID",
+                                            "type": "integer"
+                                        },
+                                        "name": {
+                                            "description": "Speciality name",
+                                            "type": "string"
+                                        },
+                                        "status": {
+                                            "description": "Speciality status",
+                                            "type": "integer"
+                                        },
+                                        "faculty": {
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Faculty ID",
+                                                    "type": "integer"
+                                                },
+                                                "name": {
+                                                    "description": "Faculty name",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Speciality not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Specialities"
+                ],
+                "summary": "Update an existing speciality",
+                "operationId": "af1d48ea0cbad4e256b3349474480bff",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the speciality to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Updated name of the speciality",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Speciality updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Speciality not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Specialities"
+                ],
+                "summary": "Delete a speciality (soft delete by setting status=0)",
+                "operationId": "5f0764518970b3ab695aed56ea7ffc98",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Speciality to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Speciality deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Speciality not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get a list of users",
+                "operationId": "c457726701591d1183b53aa71fc13441",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved the list of users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "John"
+                                            },
+                                            "surname": {
+                                                "type": "string",
+                                                "example": "Doe"
+                                            },
+                                            "email": {
+                                                "type": "string",
+                                                "format": "email",
+                                                "example": "john.doe@example.com"
+                                            },
+                                            "duty": {
+                                                "type": "string",
+                                                "example": "Manager"
+                                            },
+                                            "employee_type": {
+                                                "type": "string",
+                                                "example": "Full-time"
+                                            },
+                                            "patronymic": {
+                                                "type": "string",
+                                                "example": "Ivanovich"
+                                            },
+                                            "department_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "department_name": {
+                                                "type": "string",
+                                                "example": "Human Resources"
+                                            },
+                                            "faculty_id": {
+                                                "type": "integer",
+                                                "example": 2
+                                            },
+                                            "faculty_name": {
+                                                "type": "string",
+                                                "example": "Engineering"
+                                            },
+                                            "roles": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string",
+                                                    "example": "admin"
+                                                }
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, authentication required",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden, insufficient permissions",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Forbidden"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create a new user",
+                "operationId": "592819a0265360b2014512d6dbfaf0e7",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "surname",
+                                    "email",
+                                    "password",
+                                    "duty",
+                                    "employee_type",
+                                    "patronymic"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "surname": {
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john.doe@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "P@ssw0rd1"
+                                    },
+                                    "duty": {
+                                        "type": "string",
+                                        "example": "Manager"
+                                    },
+                                    "employee_type": {
+                                        "type": "string",
+                                        "example": "Full-time"
+                                    },
+                                    "patronymic": {
+                                        "type": "string",
+                                        "example": "Ivanovich"
+                                    },
+                                    "department_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "faculty_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User registered successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Successful registration"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An error occurred"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/users/{id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get a single user by ID",
+                "operationId": "36a33ff774d5cba33c039dec2c3e0287",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "John"
+                                        },
+                                        "surname": {
+                                            "type": "string",
+                                            "example": "Doe"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "format": "email",
+                                            "example": "john.doe@example.com"
+                                        },
+                                        "duty": {
+                                            "type": "string",
+                                            "example": "Manager"
+                                        },
+                                        "employee_type": {
+                                            "type": "string",
+                                            "example": "Full-time"
+                                        },
+                                        "patronymic": {
+                                            "type": "string",
+                                            "example": "Ivanovich"
+                                        },
+                                        "department_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "department_name": {
+                                            "type": "string",
+                                            "example": "Human Resources"
+                                        },
+                                        "faculty_id": {
+                                            "type": "integer",
+                                            "example": 2
+                                        },
+                                        "faculty_name": {
+                                            "type": "string",
+                                            "example": "Engineering"
+                                        },
+                                        "roles": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "admin"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized, authentication required"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update an existing user",
+                "operationId": "b9091397c8b25f12c6adb74be6ce3a5a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "surname",
+                                    "email",
+                                    "password",
+                                    "duty",
+                                    "employee_type",
+                                    "patronymic"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "surname": {
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john.doe@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    },
+                                    "duty": {
+                                        "type": "string",
+                                        "example": "Manager"
+                                    },
+                                    "employee_type": {
+                                        "type": "string",
+                                        "example": "Full-time"
+                                    },
+                                    "patronymic": {
+                                        "type": "string",
+                                        "example": "Smith"
+                                    },
+                                    "department_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "faculty_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User updated successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, authentication required",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete a user (soft delete)",
+                "operationId": "fa56cffde745d3f152f95cbacd936c0b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User successfully deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User successfully deleted"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, authentication required",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/users/per_page": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get paginated users based on user permissions",
+                "operationId": "6c021e722375662187a7a1682a929346",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of users per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Role": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Admin"
+                    },
+                    "permissions": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Permission": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Edit Articles"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "john.doe@example.com"
+                    },
+                    "role": {
+                        "type": "string",
+                        "example": "admin"
+                    },
+                    "status": {
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Auth"
+        },
+        {
+            "name": "Departments",
+            "description": "Departments"
+        },
+        {
+            "name": "Faculties",
+            "description": "Faculties"
+        },
+        {
+            "name": "Permissions",
+            "description": "Permissions"
+        },
+        {
+            "name": "Roles",
+            "description": "Roles"
+        },
+        {
+            "name": "Specialities",
+            "description": "Specialities"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
+        }
+    ]
+}
