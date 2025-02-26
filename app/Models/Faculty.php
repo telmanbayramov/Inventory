@@ -17,8 +17,4 @@ class Faculty extends Model
         return $this->hasMany(Department::class)->where('status', 1);
     }
 
-    public function specialities()
-    {
-        return $this->hasMany(Speciality::class)->where('status', 1);
-    }
 }

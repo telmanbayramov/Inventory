@@ -20,9 +20,9 @@ class DatabaseSeeder extends Seeder
         // $role = Role::find(1);
         // $user->assignRole($role);
 
-          Permission::create(['name' => 'view_own_lessons', 'guard_name' => 'api']);
-          Permission::create(['name' => 'view_own_faculty', 'guard_name' => 'api']);
-          Permission::create(['name' => 'view_all_faculties', 'guard_name' => 'api']);
+          Permission::create(['name' => 'view_room_permissions', 'guard_name' => 'api']);
+          Permission::create(['name' => 'view_room_permission', 'guard_name' => 'api']);
+          Permission::create(['name' => 'confirm_room_permission', 'guard_name' => 'api']);
         //   Permission::create(['name' => 'add_department', 'guard_name' => 'api']);
         //   Permission::create(['name' => 'view_department', 'guard_name' => 'api']);
         //   Permission::create(['name' => 'view_departments', 'guard_name' => 'api']);
@@ -42,7 +42,7 @@ class DatabaseSeeder extends Seeder
         //   Permission::create(['name' => 'delete_course', 'guard_name' => 'api']);
 
         $role = Role::find(1);
-        $role->givePermissionTo(['view_all_faculties']);
+        $role->givePermissionTo(['view_room_permissions','view_room_permission','confirm_room_permission']);
         // // $adminRole = Role::create(['name' => 'admin']);
         // // $userRole = Role::create(['name' => 'user']);
     }

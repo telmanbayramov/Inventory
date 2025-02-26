@@ -36,15 +36,14 @@ class UserController extends Controller
                 'duty' => $user->duty,
                 'employee_type' => $user->employee_type,
                 'patronymic' => $user->patronymic,
-                'roles' => $user->roles->pluck('id','name'), // Roller
+                'roles' => $user->roles->pluck('id', 'name'), // Roller
             ];
 
             if ($user->departments->isNotEmpty()) {
-                $response['department_names'] = $user->departments->pluck('id','name'); // Departman isimleri
+                $response['department_names'] = $user->departments->pluck('id', 'name'); // Departman isimleri
             }
 
 
-            // Fakülte varsa ekle
             if ($user->faculty) {
                 $response['faculty'] = [
                     'id' => $user->faculty->id,
@@ -73,11 +72,11 @@ class UserController extends Controller
             'duty' => $user->duty,
             'employee_type' => $user->employee_type,
             'patronymic' => $user->patronymic,
-            'roles' => $user->roles->pluck('id','name'), // Roller
+            'roles' => $user->roles->pluck('id', 'name'), // Roller
         ];
 
         if ($user->departments->isNotEmpty()) {
-            $response['department_names'] = $user->departments->pluck('id','name'); // Departman isimleri
+            $response['department_names'] = $user->departments->pluck('id', 'name'); // Departman isimleri
         }
 
         // Fakülte varsa ekle
@@ -117,7 +116,7 @@ class UserController extends Controller
         $user->duty = $validated['duty'];
         $user->employee_type = $validated['employee_type'];
         $user->patronymic = $validated['patronymic'];
-        $user->faculty_id = $validated['faculty_id'];
+        $user->faculty_id = $validated['faculty_id'] ?? null;
         $user->save();
         // Kullanıcıya rol atama (Spatie)
         $role = Role::find($validated['role_id']);
@@ -175,8 +174,9 @@ class UserController extends Controller
         $user->duty = $validated['duty'];
         $user->employee_type = $validated['employee_type'];
         $user->patronymic = $validated['patronymic'];
-        $user->faculty_id = $validated['faculty_id'] ?? $user->faculty_id;
-
+        if ($validated['faculty_id']) {
+            $user->faculty_id = $validated['faculty_id'] ?? $user->faculty_id;
+        }
         $user->save();
 
         // Departmanları pivot tabloya güncelle

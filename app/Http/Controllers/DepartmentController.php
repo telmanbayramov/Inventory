@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Department;
+use App\Models\Discipline;
 use App\Models\Faculty;
+use App\Models\Room;
+use App\Models\Schedule;
+use App\Models\User;
 
 class DepartmentController extends Controller
 {
@@ -229,17 +233,31 @@ class DepartmentController extends Controller
      *     )
      * )
      */
-    public function destroy($id)
-    {
-        $department = Department::where('status', 1)->find($id);
+    // public function destroy($id)
+    // {
+    //     $department = Department::find($id);
 
-        if (!$department) {
-            return response()->json(['message' => 'Department not found'], 404);
-        }
+    //     if (!$department) {
+    //         return response()->json(['message' => 'Department tapılmadı'], 404);
+    //     }
 
-        $department->status = 0;
-        $department->save();
+    //     // Fakülteye bağlı diğer kayıtları kontrol et (status = 1 olanlar)
+    //     $hasActiveRelations = Discipline::where('department_id', $id)->where('status', 1)->exists() ||
+    //         Room::where('department_id', $id)->where('status', 1)->exists() ||
+    //         User::whereHas('departments', function ($query) use ($id) {
+    //             $query->where('department_id', $id);
+    //         })->where('status', 1)->exists() ||
+    //         Schedule::where('department_id', $id)->where('status', 1)->exists();
 
-        return response()->json(['message' => 'Department deleted']);
-    }
+
+    //     if ($hasActiveRelations) {
+    //         return response()->json(['message' => 'Bu departmentə bağlı aktiv məlumatlar var. Silinə bilmir.'], 400);
+    //     }
+
+    //     // Fakültenin status'unu 0 yaparak soft delete işlemi uygula
+    //     $department->status = 0;
+    //     $department->save();
+
+    //     return response()->json(['message' => 'Department uğurla silindi.']);
+    // }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Lesson_Type;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 
 class LessonTypeController extends Controller
@@ -79,18 +80,26 @@ class LessonTypeController extends Controller
     }
 
    
-    public function destroy($id)
-    {
-        $Lesson_Type = Lesson_Type::where('status', 1)->find($id);
+    // public function destroy($id)
+    // {
+    //     $Lesson_Type = Lesson_Type::find($id);
 
-        if (!$Lesson_Type) {
-            return response()->json(['message' => 'Lesson_Type not found'], 404);
-        }
-        
-        // Status'ü 0 (pasif) olarak güncelle
-        $Lesson_Type->status = 0;
-        $Lesson_Type->save();
-        
-        return response()->json(['message' => 'Lesson_Type deleted']);
-    }
+    //     if (!$Lesson_Type) {
+    //         return response()->json(['message' => 'Dərs tipi tapılmadı'], 404);
+    //     }
+
+    //     // Fakülteye bağlı diğer kayıtları kontrol et (status = 1 olanlar)
+    //     $hasActiveRelations = 
+    //         Schedule::where('lesson_type_id', $id)->where('status', 1)->exists();
+
+    //     if ($hasActiveRelations) {
+    //         return response()->json(['message' => 'Bu Dərs tipinə bağlı aktiv məlumatlar var. Silinə bilmir.'], 400);
+    //     }
+
+    //     // Fakültenin status'unu 0 yaparak soft delete işlemi uygula
+    //     $Lesson_Type->status = 0;
+    //     $Lesson_Type->save();
+
+    //     return response()->json(['message' => 'Dərs tipi uğurla silindi.']);
+    // }
 }

@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use Illuminate\Http\Request;
 use App\Models\Faculty;
+use App\Models\Group;
+use App\Models\Schedule;
+use App\Models\Speciality;
+use App\Models\User;
 
 class FacultyController extends Controller
 {
@@ -205,17 +210,29 @@ class FacultyController extends Controller
      *     )
      * )
      */
-    public function destroy($id)
-    {
-        $faculty = Faculty::where('status', 1)->find($id);
+    // public function destroy($id)
+    // {
+    //     $faculty = Faculty::find($id);
 
-        if (!$faculty) {
-            return response()->json(['message' => 'Faculty not found'], 404);
-        }
+    //     if (!$faculty) {
+    //         return response()->json(['message' => 'Fakültə tapılmadı'], 404);
+    //     }
 
-        $faculty->status = 0;
-        $faculty->save();
+    //     // Fakülteye bağlı diğer kayıtları kontrol et (status = 1 olanlar)
+    //     $hasActiveRelations = Department::where('faculty_id', $id)->where('status', 1)->exists() ||
+    //         Speciality::where('faculty_id', $id)->where('status', 1)->exists() ||
+    //         User::where('faculty_id', $id)->where('status', 1)->exists() ||
+    //         Group::where('faculty_id', $id)->where('status', 1)->exists() ||
+    //         Schedule::where('faculty_id', $id)->where('status', 1)->exists();
 
-        return response()->json(['message' => 'Faculty deleted']);
-    }
+    //     if ($hasActiveRelations) {
+    //         return response()->json(['message' => 'Bu fakültəyə bağlı aktiv məlumatlar var. Silinə bilmir.'], 400);
+    //     }
+
+    //     // Fakültenin status'unu 0 yaparak soft delete işlemi uygula
+    //     $faculty->status = 0;
+    //     $faculty->save();
+
+    //     return response()->json(['message' => 'Fakültə uğurla silindi.']);
+    // }
 }

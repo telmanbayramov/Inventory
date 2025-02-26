@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Corp;
+use App\Models\Room;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 
 class CorpController extends Controller
@@ -81,16 +83,24 @@ class CorpController extends Controller
    
     public function destroy($id)
     {
-        $Corp = Corp::find($id);
+        $corp = Corp::find($id);
 
-        if (!$Corp) {
-            return response()->json(['message' => 'Corp not found'], 404);
+        if (!$corp) {
+            return response()->json(['message' => 'Korpus tapılmadı'], 404);
         }
-        
-        // Status'ü 0 (pasif) olarak güncelle
-        $Corp->status = 0;
-        $Corp->save();
-        
-        return response()->json(['message' => 'Corp deleted']);
+
+        // Fakülteye bağlı diğer kayıtları kontrol et (status = 1 olanlar)
+        $hasActiveRelations = Room::where('corp_id', $id)->where('status', 1)->exists() ||
+            Schedule::where('corp_id', $id)->where('status', 1)->exists();
+
+        if ($hasActiveRelations) {
+            return response()->json(['message' => 'Bu Korpusa bağlı aktiv məlumatlar var. Silinə bilmir.'], 400);
+        }
+
+        // Fakültenin status'unu 0 yaparak soft delete işlemi uygula
+        $corp->status = 0;
+        $corp->save();
+
+        return response()->json(['message' => 'Korpus uğurla silindi.']);
     }
 }

@@ -16,10 +16,7 @@ class Department extends Model
     {
         return $this->belongsTo(Faculty::class)->where('status', 1);
     }
-    public function disciplines()
-    {
-        return $this->hasMany(Discipline::class)->where('status', 1);
-    }
+   
     public function users()
     {
         return $this->belongsToMany(User::class, 'teacher_departments', 'department_id', 'user_id');
