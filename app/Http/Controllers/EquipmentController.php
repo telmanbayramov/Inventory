@@ -20,7 +20,6 @@ class EquipmentController extends Controller
     {
         $equipments = Equipment::where('status', 1)->get();
         return response()->json($equipments);
-       
     }
     public function show($id)
     {
@@ -66,5 +65,5 @@ class EquipmentController extends Controller
     
         return response()->json(['message' => 'Equipment deactivated successfully'], 200);
     }
-    
+   
 }
