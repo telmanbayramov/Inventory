@@ -79,7 +79,7 @@ class FacultyController extends Controller
      */
     public function show($id)
     {
-        $faculty = Faculty::where('status', 1)->with('specialities')->with('departments')->find($id);
+        $faculty = Faculty::where('status', 1)->with('departments')->find($id);
 
         if (!$faculty) {
             return response()->json(['message' => 'Faculty not found'], 404);

@@ -4,28 +4,17 @@ use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CorpController;
 use App\Http\Controllers\Room_TypeController;
-use App\Http\Controllers\CourseController;
-use App\Http\Controllers\DayController;
 use App\Http\Controllers\DepartmentController;
-use App\Http\Controllers\DisciplineController;
 use App\Http\Controllers\EquipmentController;
-use App\Http\Controllers\GroupController;
-use App\Http\Controllers\HourController;
 use App\Http\Controllers\LessonTypeController;
-use App\Http\Controllers\LessonTypeHourController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RoomController;
-use App\Http\Controllers\RoomPermissionController;
-use App\Http\Controllers\ScheduleController;
-use App\Http\Controllers\SemesterController;
-use App\Http\Controllers\SpecialityController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\Week_TypeController;
-use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\EquipmentRoomController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -118,4 +107,15 @@ Route::group([
     Route::put("equipments/{id}",[EquipmentController::class, "update"])->middleware('can:update,App\Models\Equipment');
     Route::get("equipments/{id}",[EquipmentController::class, "show"])->middleware('can:view,App\Models\Equipment');
     Route::delete("equipments/{id}",[EquipmentController::class, "destroy"])->middleware('can:delete,App\Models\Equipment');
+
+
+    Route::get('statistics', [StatisticsController::class, 'index']);
+
+    
+    Route::get("equipment-rooms", [EquipmentRoomController::class, "index"])->middleware('can:viewAny,App\Models\Equipment');
+    Route::post("equipment-rooms",[EquipmentRoomController::class, "store"])->middleware('can:create,App\Models\Equipment');
+    Route::put("equipment-rooms/{id}",[EquipmentRoomController::class, "update"])->middleware('can:update,App\Models\Equipment');
+    Route::get("equipment-rooms/{id}",[EquipmentRoomController::class, "show"])->middleware('can:view,App\Models\Equipment');
+    Route::delete("equipment-rooms/{id}",[EquipmentRoomController::class, "destroy"])->middleware('can:delete,App\Models\Equipment');
+
 });

@@ -29,18 +29,16 @@ class RoomController extends Controller
         return response()->json($Rooms);
     }
 
-   
     public function show($id)
     {
-        $Room = Room::with('department')->with('room_type')->with('corp')->where('status', 1)->find($id); // department ilişkisiyle yükle
-
-        if (!$Room) {
+        $room = Room::with(['department', 'room_type', 'corp', 'equipmentRooms'])->where('status', 1)->find($id);
+    
+        if (!$room) {
             return response()->json(['message' => 'Room not found'], 404);
         }
-
-        return response()->json($Room);
+    
+        return response()->json($room);
     }
-
    
     public function store(Request $request)
     {

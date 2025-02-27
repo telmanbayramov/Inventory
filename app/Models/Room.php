@@ -23,4 +23,8 @@ class Room extends Model
     {
         return $this->belongsTo(Corp::class)->where('status', 1);
     }
+    public function equipmentRooms()
+    {
+        return $this->hasMany(EquipmentRoom::class)->where('status', 1);
+    }
 }
