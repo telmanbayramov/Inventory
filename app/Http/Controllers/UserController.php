@@ -23,8 +23,8 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::with(['roles', 'departments', 'faculty'])
-            ->where('status', 1)
+        $users = User::
+            where('status', 1)
             ->get();
 
         $users = $users->map(function ($user) {
@@ -39,17 +39,17 @@ class UserController extends Controller
                 'roles' => $user->roles->pluck('id', 'name'), // Roller
             ];
 
-            if ($user->departments->isNotEmpty()) {
-                $response['department_names'] = $user->departments->pluck('id', 'name'); // Departman isimleri
-            }
+            // if ($user->departments->isNotEmpty()) {
+            //     $response['department_names'] = $user->departments->pluck('id', 'name'); // Departman isimleri
+            // }
 
 
-            if ($user->faculty) {
-                $response['faculty'] = [
-                    'id' => $user->faculty->id,
-                    'name' => $user->faculty->name,
-                ];
-            }
+            // if ($user->faculty) {
+            //     $response['faculty'] = [
+            //         'id' => $user->faculty->id,
+            //         'name' => $user->faculty->name,
+            //     ];
+            // }
 
             return $response;
         });

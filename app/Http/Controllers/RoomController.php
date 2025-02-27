@@ -7,6 +7,7 @@ use App\Models\Faculty;
 use Illuminate\Http\Request;
 use App\Models\Room;
 use App\Models\Speciality;
+use Illuminate\Support\Facades\DB;
 
 class RoomController extends Controller
 {
@@ -23,7 +24,7 @@ class RoomController extends Controller
     public function index()
     {
         $Rooms = Room::where('status', 1)
-            ->with('department')->with('room_type')->with('corp') 
+            ->with('department')->with('room_type')->with('corp')
             ->get();
 
         return response()->json($Rooms);
@@ -31,15 +32,39 @@ class RoomController extends Controller
 
     public function show($id)
     {
-        $room = Room::with(['department', 'room_type', 'corp', 'equipmentRooms'])->where('status', 1)->find($id);
-    
+        $room = Room::with(['devices.deviceType', 'department', 'room_type', 'corp'])
+            ->where('status', 1)
+            ->find($id);
+
         if (!$room) {
             return response()->json(['message' => 'Room not found'], 404);
         }
-    
-        return response()->json($room);
+
+        $devices = $room->devices->map(function ($device) {
+            return [
+                'id' => $device->id,
+                'name' => $device->deviceType ? $device->deviceType->type_name : 'Unknown',
+                'quantity' => $device->quantity,
+            ];
+        });
+
+        return response()->json([
+            'room' => [
+                'id' => $room->id,
+                'name' => $room->name,
+                'room_capacity' => $room->room_capacity,
+                'department_name' => $room->department ? $room->department->name : 'No Department',
+                'room_type_name' => $room->room_type ? $room->room_type->name : 'No Room Type',
+                'status' => $room->status,
+                'corp_name' => $room->corp ? $room->corp->name : 'No Corp',
+            ],
+            'devices' => $devices,
+        ]);
     }
-   
+
+
+
+
     public function store(Request $request)
     {
         $request->validate([
@@ -64,7 +89,7 @@ class RoomController extends Controller
         ], 201);
     }
 
-   
+
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -76,7 +101,7 @@ class RoomController extends Controller
         ]);
 
         $Room = Room::where('status', 1)->find($id);
-        
+
         if (!$Room) {
             return response()->json(['message' => 'Room not found'], 404);
         } else {
@@ -94,7 +119,7 @@ class RoomController extends Controller
         }
     }
 
-  
+
     public function destroy($id)
     {
         $Room = Room::where('status', 1)->find($id);

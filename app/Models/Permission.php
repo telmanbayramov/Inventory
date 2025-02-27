@@ -12,6 +12,7 @@ class Permission extends SpatiePermission
         'email',
         'password',
     ];
-
+    protected $hidden = ['created_at', 'updated_at'];
+    public $timestamps = false;
   
 }

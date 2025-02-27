@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -8,9 +9,9 @@ class Room extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'department_id','room_capacity','room_type_id','status','corp_id'];
-
-    // Department'in fakülte ile ilişkisi
+    protected $fillable = ['name', 'department_id', 'room_capacity', 'room_type_id', 'status', 'corp_id'];
+    protected $hidden = ['created_at', 'updated_at'];
+    public $timestamps = false;
     public function department()
     {
         return $this->belongsTo(Department::class)->where('status', 1);
@@ -23,8 +24,9 @@ class Room extends Model
     {
         return $this->belongsTo(Corp::class)->where('status', 1);
     }
-    public function equipmentRooms()
+    public function devices()
     {
-        return $this->hasMany(EquipmentRoom::class)->where('status', 1);
+        return $this->hasMany(Device::class);
     }
+    
 }

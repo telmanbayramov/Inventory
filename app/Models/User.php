@@ -50,14 +50,5 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-    public function departments()
-    {
-        return $this->belongsToMany(Department::class, 'teacher_departments', 'user_id', 'department_id');
-    }
-
-
-    public function faculty()
-    {
-        return $this->belongsTo(Faculty::class)->where('status', 1);
-    }
+  
 }

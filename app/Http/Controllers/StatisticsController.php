@@ -7,6 +7,7 @@ use App\Models\Room;
 use App\Models\Equipment;
 use App\Models\Corp;
 use App\Models\User;
+use App\Models\Device;
 
 class StatisticsController extends Controller
 {
@@ -23,7 +24,7 @@ class StatisticsController extends Controller
 
         $roomCount = Room::where('status','1')->count();
 
-        $equipmentCount = Equipment::where('status','1')->count();
+        $deviceQuantitySum = Device::where('status', 1)->sum('quantity');
 
         $corpsCount = Corp::where('status','1')->count();
 
@@ -33,7 +34,7 @@ class StatisticsController extends Controller
             'faculty_count' => $facultyCount,
             'department_count' => $departmentCount,
             'room_count' => $roomCount,
-            'equipment_count' => $equipmentCount,
+            'equipment_count' => $deviceQuantitySum,
             'corps_count' => $corpsCount,
             'user_count' => $userCount,
         ]);

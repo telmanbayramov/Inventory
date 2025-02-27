@@ -9,7 +9,8 @@ class Lesson_Type extends Model
     use HasFactory;
     protected $table = 'lesson_types';
     protected $fillable = ['name', 'status'];
-
+    protected $hidden = ['created_at', 'updated_at'];
+    public $timestamps = false;
     // // Faculty'nin departmanlarla ilişkisi
     // public function departments()
     // {

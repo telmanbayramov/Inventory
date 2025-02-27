@@ -11,5 +11,6 @@ class Role extends SpatieRole{
         'email',
         'password',
     ];
-
+    protected $hidden = ['created_at', 'updated_at'];
+    public $timestamps = false;
 }

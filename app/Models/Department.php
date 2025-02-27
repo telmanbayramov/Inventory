@@ -10,13 +10,12 @@ class Department extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'faculty_id', 'status'];
-
-    // Department'in fakülte ile ilişkisi
+    protected $hidden = ['created_at', 'updated_at'];
+    public $timestamps = false;
     public function faculty()
     {
         return $this->belongsTo(Faculty::class)->where('status', 1);
     }
-   
     public function users()
     {
         return $this->belongsToMany(User::class, 'teacher_departments', 'department_id', 'user_id');

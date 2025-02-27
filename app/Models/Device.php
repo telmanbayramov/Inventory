@@ -5,16 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Faculty extends Model
+class Device extends Model
 {
     use HasFactory;
-
-    protected $fillable = ['name', 'status'];
+    protected $table = 'devices';
+    protected $fillable = ['room_id', 'device_type_id','quantity'];
     protected $hidden = ['created_at', 'updated_at'];
     public $timestamps = false;
-    public function departments()
+    public function deviceType()
     {
-        return $this->hasMany(Department::class)->where('status', 1);
+        return $this->belongsTo(DeviceType::class, 'device_type_id');
     }
-
 }
